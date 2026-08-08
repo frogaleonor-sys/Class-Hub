@@ -404,83 +404,7 @@ const classes = [
 
 
         /* =========================
-           SECRET EASTER EGG
-           ========================= */
-
-        let secretTaps = 0;
-
-        let tapTimer = null;
-
-
-        if (secretTrigger) {
-
-            secretTrigger.addEventListener(
-                "click",
-                () => {
-
-                    secretTaps++;
-
-
-                    clearTimeout(
-                        tapTimer
-                    );
-
-
-                    tapTimer =
-                        setTimeout(
-                            () => {
-
-                                secretTaps = 0;
-
-                            },
-                            1800
-                        );
-
-
-                    if (
-                        secretTaps === 4
-                    ) {
-
-                        secretTaps = 0;
-
-                        clearTimeout(
-                            tapTimer
-                        );
-
-
-                        if (
-                            secretOverlay
-                        ) {
-
-                            secretOverlay.classList.add(
-                                "show"
-                            );
-
-                            secretOverlay.setAttribute(
-                                "aria-hidden",
-                                "false"
-                            );
-
-                        }
-
-                    }
-
-                }
-            );
-
-        }
-
-
-        /* =========================
-           CLOSE SECRET
-           ========================= */
-
-        if (secretClose) {
-
-            secretClose.addEventListener(
-                "click",
-                () => {
-
+        
                     secretOverlay.classList.remove(
                         "show"
                     );
@@ -496,25 +420,6 @@ const classes = [
         }
 
 
-        /* =========================
-            SECRET ENTER
-         ========================= */
-
-if (secretEnter) {
-
-    secretEnter.addEventListener(
-        "click",
-        () => {
-
-            alert(
-                "👀 SECRET PAGE\n\n" +
-                "We're building this next."
-            );
-
-        }
-    );
-
-}
 /* =========================
    ACTIVITIES POPUP
 ========================= */
