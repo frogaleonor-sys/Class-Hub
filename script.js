@@ -610,3 +610,37 @@ document.addEventListener("click", function(event) {
     }
 
 });
+/* =========================
+   SCHEDULE POPUP
+========================= */
+
+function openSchedule() {
+
+    const popup =
+        document.getElementById("schedulePopup");
+
+    popup.classList.add("active");
+}
+
+
+function closeSchedule() {
+
+    const popup =
+        document.getElementById("schedulePopup");
+
+    popup.classList.remove("active");
+}
+
+
+/* Close schedule popup when clicking dark background */
+
+document.addEventListener("click", function(event) {
+
+    const popup =
+        document.getElementById("schedulePopup");
+
+    if (event.target === popup) {
+        closeSchedule();
+    }
+
+});
