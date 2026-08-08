@@ -603,3 +603,79 @@ main {
         min-height: 75px;
     }
   }
+
+/* =========================
+   ACTIVITIES POPUP
+========================= */
+
+.popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    background: rgba(0, 0, 0, 0.75);
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+}
+
+.popup-overlay.active {
+    display: flex;
+}
+
+.activities-popup {
+    position: relative;
+
+    width: 100%;
+    max-width: 600px;
+    max-height: 80vh;
+
+    overflow-y: auto;
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    background: #111827;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.popup-close {
+    position: absolute;
+
+    top: 10px;
+    right: 15px;
+
+    border: none;
+    background: transparent;
+
+    font-size: 32px;
+    cursor: pointer;
+}
+
+.activity-card {
+    margin-top: 15px;
+    padding: 20px;
+
+    border-radius: 14px;
+
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.activity-card h3 {
+    margin-top: 0;
+}
+
+.activity-subject {
+    font-weight: bold;
+}
+
+.no-activities {
+    text-align: center;
+    padding: 30px;
+}
