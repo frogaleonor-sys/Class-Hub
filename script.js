@@ -286,12 +286,9 @@ const classes = [
 
             if (page === "schedule") {
 
-                alert(
-                    "📅 SCHEDULE\n\n" +
-                    "Your class schedule will appear here."
-                );
+    openSchedule();
 
-                return;
+    return;
             }
 
 
