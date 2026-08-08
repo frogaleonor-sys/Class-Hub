@@ -322,21 +322,26 @@ document.addEventListener(
            ========================= */
 
         quickCards.forEach(
-            card => {
+    card => {
 
-                card.addEventListener(
-                    "click",
-                    () => {
+        card.addEventListener(
+            "click",
+            () => {
 
-                        openPage(
-                            card.dataset.page
-                        );
+                if (card.dataset.page === "activities") {
+                    openActivities();
+                    return;
+                }
 
-                    }
+                openPage(
+                    card.dataset.page
                 );
 
             }
         );
+
+    }
+);
 
 
         /* =========================
