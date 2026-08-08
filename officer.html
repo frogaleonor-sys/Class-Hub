@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>ABM 2 Officer Panel</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #080b12;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .card {
+            background: #111722;
+            border: 1px solid #263044;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 15px 50px rgba(0,0,0,.35);
+        }
+
+        h1,
+        h2 {
+            margin-top: 0;
+        }
+
+        .subtitle {
+            color: #9ca8bb;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 14px;
+            margin: 8px 0 15px;
+            border-radius: 10px;
+            border: 1px solid #303b50;
+            background: #080c14;
+            color: white;
+            font-size: 16px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            background: #e63946;
+            color: white;
+        }
+
+        button:hover {
+            opacity: .9;
+        }
+
+        .secondary {
+            background: #252e3d;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            min-height: 22px;
+            margin-top: 12px;
+            color: #9ca8bb;
+        }
+
+        .announcement-preview {
+            margin-top: 25px;
+            padding: 18px;
+            border-radius: 14px;
+            background: #0b101a;
+            border: 1px solid #263044;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 12px;
+                align-items: flex-start;
+                padding-top: 30px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- LOGIN -->
+
+    <div
+        id="loginCard"
+        class="card"
+    >
+
+        <h1>🔐 ABM 2</h1>
+
+        <p class="subtitle">
+            Officer Panel
+        </p>
+
+
+        <label>Email</label>
+
+        <input
+            id="email"
+            type="email"
+            placeholder="Officer email"
+            autocomplete="email"
+        >
+
+
+        <label>Password</label>
+
+        <input
+            id="password"
+            type="password"
+            placeholder="Password"
+            autocomplete="current-password"
+        >
+
+
+        <button id="loginButton">
+            Login
+        </button>
+
+
+        <div
+            id="loginMessage"
+            class="message"
+        ></div>
+
+    </div>
+
+
+
+    <!-- OFFICER PANEL -->
+
+    <div
+        id="panelCard"
+        class="card hidden"
+    >
+
+        <h1>👋 Officer Dashboard</h1>
+
+        <p
+            id="roleText"
+            class="subtitle"
+        ></p>
+
+
+        <hr>
+
+
+        <h2>📢 Announcement</h2>
+
+
+        <label>Title</label>
+
+        <input
+            id="announcementTitle"
+            type="text"
+            placeholder="Announcement title"
+        >
+
+
+        <label>Message</label>
+
+        <textarea
+            id="announcementMessage"
+            rows="6"
+            placeholder="Write the announcement..."
+        ></textarea>
+
+
+        <button id="saveButton">
+            💾 Save Announcement
+        </button>
+
+
+        <div
+            id="saveMessage"
+            class="message"
+        ></div>
+
+
+        <div class="announcement-preview">
+
+            <strong>Current announcement</strong>
+
+            <h3 id="currentTitle">
+                —
+            </h3>
+
+            <p id="currentMessage">
+                —
+            </p>
+
+        </div>
+
+
+        <button
+            id="logoutButton"
+            class="secondary"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+const SUPABASE_URL =
+    "https://molcqxvhzntiqpaiopdi.supabase.co";
+
+
+const SUPABASE_KEY =
+    "sb_publishable_Ft99Xk1hx7VrkWkYSQ2G8Q_By-1ZggD";
+
+
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+
+const loginCard =
+    document.getElementById("loginCard");
+
+const panelCard =
+    document.getElementById("panelCard");
+
+const email =
+    document.getElementById("email");
+
+const password =
+    document.getElementById("password");
+
+const loginButton =
+    document.getElementById("loginButton");
+
+const loginMessage =
+    document.getElementById("loginMessage");
+
+const roleText =
+    document.getElementById("roleText");
+
+const titleInput =
+    document.getElementById("announcementTitle");
+
+const messageInput =
+    document.getElementById("announcementMessage");
+
+const saveButton =
+    document.getElementById("saveButton");
+
+const saveMessage =
+    document.getElementById("saveMessage");
+
+const currentTitle =
+    document.getElementById("currentTitle");
+
+const currentMessage =
+    document.getElementById("currentMessage");
+
+const logoutButton =
+    document.getElementById("logoutButton");
+
+
+
+/* =========================
+   LOAD ANNOUNCEMENT
+========================= */
+
+async function loadAnnouncement() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("announcements")
+        .select("*")
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        )
+        .limit(1);
+
+
+    if (error) {
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    if (
+        !data ||
+        data.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const announcement =
+        data[0];
+
+
+    titleInput.value =
+        announcement.title;
+
+
+    messageInput.value =
+        announcement.message;
+
+
+    currentTitle.textContent =
+        announcement.title;
+
+
+    currentMessage.textContent =
+        announcement.message;
+
+}
+
+
+
+/* =========================
+   LOGIN
+========================= */
+
+loginButton.addEventListener(
+    "click",
+    async () => {
+
+        loginMessage.textContent =
+            "Logging in...";
+
+
+        const {
+            data,
+            error
+        } = await supabaseClient.auth
+            .signInWithPassword({
+                email:
+                    email.value.trim(),
+
+                password:
+                    password.value
+            });
+
+
+        if (error) {
+
+            loginMessage.textContent =
+                "❌ " + error.message;
+
+            return;
+
+        }
+
+
+        await checkUser();
+
+    }
+);
+
+
+
+/* =========================
+   CHECK USER ROLE
+========================= */
+
+async function checkUser() {
+
+    const {
+        data: {
+            user
+        }
+    } = await supabaseClient.auth
+        .getUser();
+
+
+    if (!user) {
+
+        return;
+
+    }
+
+
+    const {
+        data: profile,
+        error
+    } = await supabaseClient
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+
+    if (
+        error ||
+        !profile
+    ) {
+
+        loginMessage.textContent =
+            "❌ No officer role found.";
+
+        await supabaseClient.auth.signOut();
+
+        return;
+
+    }
+
+
+    if (
+        profile.role !== "admin" &&
+        profile.role !== "editor"
+    ) {
+
+        loginMessage.textContent =
+            "❌ You don't have officer access.";
+
+        await supabaseClient.auth.signOut();
+
+        return;
+
+    }
+
+
+    loginCard.classList.add(
+        "hidden"
+    );
+
+    panelCard.classList.remove(
+        "hidden"
+    );
+
+
+    roleText.textContent =
+        "Logged in as " +
+        profile.role;
+
+
+    await loadAnnouncement();
+
+}
+
+
+
+/* =========================
+   SAVE
+========================= */
+
+saveButton.addEventListener(
+    "click",
+    async () => {
+
+        saveMessage.textContent =
+            "Saving...";
+
+
+        const newTitle =
+            titleInput.value.trim();
+
+        const newMessage =
+            messageInput.value.trim();
+
+
+        if (
+            !newTitle ||
+            !newMessage
+        ) {
+
+            saveMessage.textContent =
+                "❌ Fill in both fields.";
+
+            return;
+
+        }
+
+
+        const {
+            data: existing,
+            error: fetchError
+        } = await supabaseClient
+            .from("announcements")
+            .select("id")
+            .order(
+                "created_at",
+                {
+                    ascending: false
+                }
+            )
+            .limit(1);
+
+
+        if (fetchError) {
+
+            saveMessage.textContent =
+                "❌ " +
+                fetchError.message;
+
+            return;
+
+        }
+
+
+        let result;
+
+
+        if (
+            existing &&
+            existing.length > 0
+        ) {
+
+            result =
+                await supabaseClient
+                    .from("announcements")
+                    .update({
+                        title: newTitle,
+                        message: newMessage,
+                        created_at:
+                            new Date().toISOString()
+                    })
+                    .eq(
+                        "id",
+                        existing[0].id
+                    );
+
+        } else {
+
+            result =
+                await supabaseClient
+                    .from("announcements")
+                    .insert({
+                        title: newTitle,
+                        message: newMessage
+                    });
+
+        }
+
+
+        if (result.error) {
+
+            saveMessage.textContent =
+                "❌ " +
+                result.error.message;
+
+            return;
+
+        }
+
+
+        currentTitle.textContent =
+            newTitle;
+
+        currentMessage.textContent =
+            newMessage;
+
+
+        saveMessage.textContent =
+            "✅ Announcement saved!";
+
+    }
+);
+
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+logoutButton.addEventListener(
+    "click",
+    async () => {
+
+        await supabaseClient.auth
+            .signOut();
+
+
+        panelCard.classList.add(
+            "hidden"
+        );
+
+        loginCard.classList.remove(
+            "hidden"
+        );
+
+        email.value = "";
+
+        password.value = "";
+
+        loginMessage.textContent = "";
+
+    }
+);
+
+
+
+/* =========================
+   CHECK EXISTING SESSION
+========================= */
+
+checkUser();
+
+</script>
+
+</body>
+</html>
