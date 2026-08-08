@@ -276,7 +276,46 @@
             </p>
 
         </div>
+<hr>
 
+<h2>📚 Activities</h2>
+
+<label>Activity Title</label>
+
+<input
+    id="activityTitle"
+    type="text"
+    placeholder="Activity title"
+>
+
+<label>Subject</label>
+
+<input
+    id="activitySubject"
+    type="text"
+    placeholder="Subject"
+>
+
+<label>Description</label>
+
+<textarea
+    id="activityDescription"
+    rows="5"
+    placeholder="Describe the activity..."
+></textarea>
+
+<button id="saveActivityButton">
+    💾 Add Activity
+</button>
+
+<div
+    id="activityMessage"
+    class="message"
+></div>
+
+<div id="adminActivityList">
+    Loading activities...
+</div>
 
         <button
             id="logoutButton"
@@ -715,6 +754,165 @@ checkUser();
 
     await checkUser();
 }
+
+    // ===============================
+// ACTIVITIES ADMIN
+// ===============================
+
+const saveActivityButton =
+    document.getElementById("saveActivityButton");
+
+if (saveActivityButton) {
+
+    saveActivityButton.addEventListener(
+        "click",
+        async () => {
+
+            const title =
+                document.getElementById("activityTitle").value.trim();
+
+            const subject =
+                document.getElementById("activitySubject").value.trim();
+
+            const description =
+                document.getElementById("activityDescription").value.trim();
+
+            const message =
+                document.getElementById("activityMessage");
+
+            if (!title) {
+                message.textContent =
+                    "⚠️ Please enter an activity title.";
+                return;
+            }
+
+            const { error } =
+                await supabaseClient
+                    .from("activities")
+                    .insert([
+                        {
+                            title: title,
+                            subject: subject,
+                            description: description
+                        }
+                    ]);
+
+            if (error) {
+
+                console.error(error);
+
+                message.textContent =
+                    "❌ Failed to save activity.";
+
+                return;
+            }
+
+            message.textContent =
+                "✅ Activity added!";
+
+            document.getElementById("activityTitle").value = "";
+            document.getElementById("activitySubject").value = "";
+            document.getElementById("activityDescription").value = "";
+
+            loadAdminActivities();
+        }
+    );
+
+}
+
+
+// Load activities into officer dashboard
+
+async function loadAdminActivities() {
+
+    const list =
+        document.getElementById("adminActivityList");
+
+    if (!list) return;
+
+    const { data, error } =
+        await supabaseClient
+            .from("activities")
+            .select("*")
+            .order("created_at", {
+                ascending: false
+            });
+
+    if (error) {
+
+        console.error(error);
+
+        list.innerHTML =
+            "<p>❌ Unable to load activities.</p>";
+
+        return;
+    }
+
+    if (!data || data.length === 0) {
+
+        list.innerHTML =
+            "<p>No activities yet.</p>";
+
+        return;
+    }
+
+    list.innerHTML = "";
+
+    data.forEach(activity => {
+
+        const item =
+            document.createElement("div");
+
+        item.className =
+            "admin-activity-item";
+
+        item.innerHTML = `
+            <strong>${activity.title}</strong>
+            <p>${activity.subject || ""}</p>
+            <p>${activity.description || ""}</p>
+
+            <button
+                onclick="deleteActivity('${activity.id}')"
+            >
+                🗑️ Delete
+            </button>
+        `;
+
+        list.appendChild(item);
+    });
+}
+
+
+// Delete activity
+
+async function deleteActivity(id) {
+
+    if (!confirm("Delete this activity?")) {
+        return;
+    }
+
+    const { error } =
+        await supabaseClient
+            .from("activities")
+            .delete()
+            .eq("id", id);
+
+    if (error) {
+
+        console.error(error);
+
+        alert("❌ Failed to delete activity.");
+
+        return;
+    }
+
+    loadAdminActivities();
+}
+
+
+// Load existing activities
+
+loadAdminActivities();
 
 startPage();
 
