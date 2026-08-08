@@ -751,3 +751,153 @@ main {
 .schedule-list p:nth-child(4) {
     font-weight: bold;
 }
+
+/* =========================
+   SECRET TERMINAL
+========================= */
+
+.secret-terminal {
+    display: none;
+    width: min(90%, 700px);
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 24px;
+    box-sizing: border-box;
+
+    background: #080b0d;
+    color: #00ff88;
+
+    border: 1px solid #00ff88;
+    border-radius: 12px;
+
+    font-family: monospace;
+
+    box-shadow:
+        0 0 20px rgba(0, 255, 136, 0.25);
+
+    position: relative;
+}
+
+.secret-terminal.show {
+    display: block;
+    animation: terminalBoot 0.35s ease-out;
+}
+
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+
+    border-bottom: 1px solid rgba(0, 255, 136, 0.35);
+
+    font-size: 13px;
+}
+
+.terminal-output {
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.terminal-output p {
+    margin: 4px 0;
+}
+
+.terminal-status {
+    margin-top: 20px;
+    padding: 10px;
+
+    border: 1px solid rgba(0, 255, 136, 0.3);
+
+    font-size: 13px;
+}
+
+.terminal-status span {
+    animation: blink 1s infinite;
+}
+
+.terminal-divider {
+    height: 1px;
+    margin: 24px 0;
+
+    background: rgba(0, 255, 136, 0.35);
+}
+
+.credits {
+    text-align: center;
+    line-height: 1.6;
+}
+
+.credits h3 {
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.credits p {
+    margin: 6px 0;
+}
+
+.credits strong {
+    display: block;
+    margin-bottom: 12px;
+
+    font-size: 20px;
+}
+
+.terminal-cursor {
+    margin-top: 24px;
+    font-size: 14px;
+}
+
+.terminal-cursor span {
+    animation: blink 0.8s steps(1) infinite;
+}
+
+#secretReturn {
+    width: 100%;
+    margin-top: 24px;
+    padding: 12px;
+
+    background: transparent;
+    color: #00ff88;
+
+    border: 1px solid #00ff88;
+    border-radius: 6px;
+
+    font-family: monospace;
+    cursor: pointer;
+}
+
+#secretReturn:hover {
+    background: rgba(0, 255, 136, 0.1);
+}
+
+@keyframes terminalBoot {
+
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+@keyframes blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
+
+}
