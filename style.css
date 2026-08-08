@@ -732,3 +732,22 @@ main {
     text-align: center;
     padding: 30px;
 }
+
+/* Schedule Popup */
+
+.schedule-list p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.schedule-list p:last-child {
+    border-bottom: none;
+}
+
+.schedule-list p:nth-child(4) {
+    font-weight: bold;
+}
