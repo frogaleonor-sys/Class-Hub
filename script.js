@@ -318,7 +318,7 @@ const classes = [
 
                 alert(
                     "📢 ANNOUNCEMENTS\n\n" +
-                    "Your announcements will appear here."
+                    "Bumalik kana sakin please"
                 );
 
                 return;
