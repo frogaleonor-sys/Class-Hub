@@ -694,112 +694,31 @@ logoutButton.addEventListener(
 ========================= */
 
 checkUser();
-    /* =========================
-   PASSWORD RECOVERY
-========================= */
 
-const resetBox =
-    document.getElementById("resetBox");
+    async function startPage() {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
 
-const newPassword =
-    document.getElementById("newPassword");
-
-const confirmPassword =
-    document.getElementById("confirmPassword");
-
-const resetPasswordButton =
-    document.getElementById("resetPasswordButton");
-
-const resetMessage =
-    document.getElementById("resetMessage");
-
-
-supabaseClient.auth.onAuthStateChange(
-    async (event, session) => {
-
-        if (
-            event === "PASSWORD_RECOVERY"
-        ) {
-
-            loginMessage.textContent = "";
-
-            resetBox.classList.remove(
-                "hidden"
-            );
-
-        }
-
-    }
-);
-
-
-resetPasswordButton.addEventListener(
-    "click",
-    async () => {
-
-        const password =
-            newPassword.value;
-
-        const confirmation =
-            confirmPassword.value;
-
-
-        if (
-            password.length < 6
-        ) {
-
-            resetMessage.textContent =
-                "❌ Password must be at least 6 characters.";
-
-            return;
-
-        }
-
-
-        if (
-            password !== confirmation
-        ) {
-
-            resetMessage.textContent =
-                "❌ Passwords don't match.";
-
-            return;
-
-        }
-
-
-        resetMessage.textContent =
-            "Updating password...";
-
-
-        const {
-            error
-        } = await supabaseClient.auth
-            .updateUser({
-                password: password
-            });
-
+    if (code) {
+        const { error } =
+            await supabaseClient.auth.exchangeCodeForSession(code);
 
         if (error) {
-
-            resetMessage.textContent =
-                "❌ " + error.message;
-
+            console.error("Recovery error:", error);
             return;
-
         }
 
-
-        resetMessage.textContent =
-            "✅ Password updated! You can now log in.";
-
-        newPassword.value = "";
-        confirmPassword.value = "";
-
+        document.getElementById("normalLogin").classList.add("hidden");
+        document.getElementById("resetBox").classList.remove("hidden");
+        return;
     }
-);
+
+    await checkUser();
+}
+
+startPage();
 
 </script>
 
-</body>
+    </body>
 </html>
