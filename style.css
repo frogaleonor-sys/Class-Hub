@@ -85,6 +85,59 @@ button {
 
 main {
     width: 100%;
+
+    /* ACTIVITIES POPUP */
+
+#activitiesPopup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+#activitiesPopup.active {
+    display: flex;
+}
+
+.activities-popup {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    padding: 25px;
+    position: relative;
+}
+
+.popup-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    border: none;
+    background: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.activity-card {
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 12px;
+    background: #f5f5f5;
+}
+
+.activity-card h3 {
+    margin: 0 0 8px;
+}
+
+.activity-subject {
+    font-weight: bold;
+}
     max-width: 900px;
 
     margin: auto;
