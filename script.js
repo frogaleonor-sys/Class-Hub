@@ -157,30 +157,53 @@ document.addEventListener(
 
         loadAnnouncement();
 
+/* =========================
+   TODAY'S CLASSES
+   ========================= */
 
-        /* =========================
-           SAMPLE CLASSES
-           ========================= */
+const classes = [
+    {
+        time: "12:40 – 1:30",
+        name: "First Subject",
+        room: "Room —"
+    },
 
-        const classes = [
-            {
-                time: "7:00 AM",
-                name: "Subject 1",
-                room: "Room —"
-            },
+    {
+        time: "1:30 – 2:15",
+        name: "Second Subject",
+        room: "Room —"
+    },
 
-            {
-                time: "8:30 AM",
-                name: "Subject 2",
-                room: "Room —"
-            },
+    {
+        time: "2:15 – 3:00",
+        name: "Third Subject",
+        room: "Room —"
+    },
 
-            {
-                time: "10:00 AM",
-                name: "Subject 3",
-                room: "Room —"
-            }
-        ];
+    {
+        time: "3:00 – 3:20",
+        name: "Break Time",
+        room: "☕"
+    },
+
+    {
+        time: "3:20 – 4:05",
+        name: "Fourth Subject",
+        room: "Room —"
+    },
+
+    {
+        time: "4:05 – 4:50",
+        name: "Fifth Subject",
+        room: "Room —"
+    },
+
+    {
+        time: "4:50 – 5:45",
+        name: "Sixth Subject",
+        room: "Room —"
+    }
+];
 
 
         /* =========================
