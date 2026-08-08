@@ -492,3 +492,93 @@ document.addEventListener(
 
     }
 );
+
+/* =========================
+   ACTIVITIES POPUP
+========================= */
+
+async function openActivities() {
+
+    const popup = document.getElementById("activitiesPopup");
+    const list = document.getElementById("activityList");
+
+    popup.classList.add("active");
+
+    list.innerHTML = "<p>Loading activities...</p>";
+
+    const { data, error } = await supabaseClient
+        .from("activities")
+        .select("*")
+        .order("created_at", {
+            ascending: false
+        });
+
+    if (error) {
+        console.error(error);
+
+        list.innerHTML =
+            "<p>❌ Unable to load activities.</p>";
+
+        return;
+    }
+
+    if (!data || data.length === 0) {
+
+        list.innerHTML = `
+            <div class="no-activities">
+                <p>🎉 No current activities!</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    list.innerHTML = "";
+
+    data.forEach(activity => {
+
+        const card = document.createElement("div");
+
+        card.className = "activity-card";
+
+        const title = document.createElement("h3");
+        title.textContent = "📌 " + activity.title;
+
+        const subject = document.createElement("p");
+        subject.className = "activity-subject";
+        subject.textContent = activity.subject || "";
+
+        const description = document.createElement("p");
+        description.textContent =
+            activity.description || "";
+
+        card.appendChild(title);
+        card.appendChild(subject);
+        card.appendChild(description);
+
+        list.appendChild(card);
+    });
+}
+
+
+function closeActivities() {
+
+    document
+        .getElementById("activitiesPopup")
+        .classList
+        .remove("active");
+}
+
+
+/* Close popup when clicking the dark background */
+
+document.addEventListener("click", function(event) {
+
+    const popup =
+        document.getElementById("activitiesPopup");
+
+    if (event.target === popup) {
+        closeActivities();
+    }
+
+});
