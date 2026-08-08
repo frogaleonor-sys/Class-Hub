@@ -497,27 +497,70 @@ const classes = [
 
 
         /* =========================
-           SECRET ENTER
-           ========================= */
+   SECRET ENTER
+========================= */
 
-        if (secretEnter) {
+if (secretEnter) {
 
-            secretEnter.addEventListener(
-                "click",
-                () => {
+    secretEnter.addEventListener(
+        "click",
+        () => {
 
-                    alert(
-                        "👀 SECRET PAGE\n\n" +
-                        "We're building this next."
-                    );
+            const secretBox =
+                document.querySelector(".secret-box");
 
-                }
-            );
+            const secretTerminal =
+                document.getElementById(
+                    "secretTerminal"
+                );
+
+            if (secretBox) {
+                secretBox.style.display = "none";
+            }
+
+            if (secretTerminal) {
+                secretTerminal.classList.add("show");
+            }
 
         }
+    );
 
-    }
-);
+}
+
+
+/* =========================
+   SECRET RETURN
+========================= */
+
+const secretReturn =
+    document.getElementById("secretReturn");
+
+if (secretReturn) {
+
+    secretReturn.addEventListener(
+        "click",
+        () => {
+
+            const secretBox =
+                document.querySelector(".secret-box");
+
+            const secretTerminal =
+                document.getElementById(
+                    "secretTerminal"
+                );
+
+            if (secretTerminal) {
+                secretTerminal.classList.remove("show");
+            }
+
+            if (secretBox) {
+                secretBox.style.display = "";
+            }
+
+        }
+    );
+
+}
 
 /* =========================
    ACTIVITIES POPUP
