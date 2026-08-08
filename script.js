@@ -316,12 +316,13 @@ const classes = [
 
             if (page === "announcements") {
 
-                alert(
-                    "📢 ANNOUNCEMENTS\n\n" +
-                    "Bumalik kana sakin please"
-                );
+    alert(
+        "👀 YOU FOUND THE SECRET\n\n" +
+        "There is no announcement here.\n" +
+        "You were just curious. 😭"
+    );
 
-                return;
+    return;
             }
 
 
